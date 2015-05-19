@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Log Monitor</title>
+	<style type="text/css">
+	h1, h4
+	{
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		text-align: center;
+	}
+	h4
+	{
+		font-weight: normal;
+	}
+	pre
+	{
+		font-family: Menlo, monospace;
+		font-size: 10pt;
+		margin: 0px;
+		padding 0px;
+	}
+	#log
+	{
+		overflow-y: scroll;
+		padding: 0px 10px;
+	}
+	</style>
+</head>
+<body>
+	<div id="log">
+	</div>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', listen, false);
+	
+	function listen()
+	{
+		var logElement = document.getElementById('log');
+		var socket = io.connect(window.location.toString());
+		socket.on('log', function (data)
+		{
+		    var element = document.createElement('pre');
+			element.textContent = data.contents;
+			log.appendChild(element);
+			setTimeout(function()
+			{
+				log.scrollTop = log.scrollHeight;
+			}, 0);
+		});
+	}
+	</script>
+</body>
+</html>
