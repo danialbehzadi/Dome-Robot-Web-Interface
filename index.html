@@ -73,19 +73,19 @@
         	  <p>
 	            <b>Mode</b>
 	            <br />
-	            blah
+		    <span id="mode">N/A</span>
 	          </p>
           </div><div class="col-md-4" style="text-align:center">
         	  <p>
 	            <b>Angle</b>
 	            <br />
-	            blah
+		    <span id="angle">N/A</span>
 	          </p>
           </div><div class="col-md-4" style="text-align:center">
         	  <p>
 	            <b>Brush</b>
 	            <br />
-	            blah
+		    <span id="brush">N/A</span>
 	          </p>
           </div>
         </div>
@@ -97,13 +97,13 @@
       <div class="row">
         <div class="col-md-6">
           <h2>Camera 1</h2>
-          <iframe style="width:100%; height:260px; border:0" src="http://192.168.0.100:8081">test</iframe>
+          <iframe style="width:100%; height:260px; border:0" src="http://192.168.1.101:8081">test</iframe>
           <p>Here we see live stream from camera 1.</p>
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-md-6">
           <h2>Camera 2</h2>
-          <iframe style="width:100%; height:260px; border:0" src="http://192.168.0.100:8082">test</iframe>
+          <iframe style="width:100%; height:260px; border:0" src="http://192.168.1.101:8082">test</iframe>
           <p>Here we see live stream from camera 2.</p>
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
        </div>
@@ -111,7 +111,7 @@
 	<div class="row">
         <div>
           <h2>Log</h2>
-          <iframe style="width:100%; border:0" src="http://192.168.0.100:8181">test</iframe>
+          <iframe style="width:100%; border:0" src="http://192.168.1.101:8181">test</iframe>
           <p>Here we see logs streamed from robot.</p>
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
@@ -126,9 +126,31 @@
       </footer>
     </div> <!-- /container -->
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery -->
     <script src="js/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Bootstrap  -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- update status -->
+    <script>
+      setInterval(function(){
+	var mt = document.getElementById("mode");
+	var at = document.getElementById("angle");
+	var bt = document.getElementById("brush");
+        $.ajax({
+          url: "http://192.168.1.101/stat.json",
+          async: false,
+          dataType: 'json',
+	  success: function(response) {
+            mt.innerHTML = response.mode;
+	    at.innerHTML = response.angle;
+	    bt.innerHTML = response.brush;
+          },
+	  error: function(e) {
+            console.log(e);
+	    alert ("There's something wring with stat File\nSee console log for more information");
+	  }
+        });
+      }, 1000);
+    </script>
   </body>
 </html>
